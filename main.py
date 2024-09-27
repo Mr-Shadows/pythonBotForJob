@@ -55,12 +55,13 @@ def task(message):
     counter = 0
     user_name = message.from_user.username
     user_first_name = message.from_user.first_name
-
+    user_last_name = message.from_user.last_name
     application_text = [message.text]
 
     applications[str(user_id)] = {
         'username': user_name,
-        'firs name': user_first_name,
+        'First name': user_first_name,
+        'Last Name': user_last_name,
         'application': application_text
     }
 
