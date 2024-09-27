@@ -41,7 +41,7 @@ def list_task(message):
         if applications:
             response = 'Список всех заявок: \n\n'
             for user_id, app in applications.items():
-                response += f"Пользователь: {app['name']} (ID: {user_id})\nЗаявка: {app['application']}\n\n"
+                response += f"Пользователь: {app['username']} (ID: {user_id})\nЗаявка: {app['application']}\n\n"
             bot.reply_to(message, response)
         else:
             bot.reply_to(message, 'Заявок пока нет!')
@@ -52,7 +52,6 @@ def list_task(message):
 @bot.message_handler(func=lambda message: True)
 def task(message):
     user_id = message.from_user.id
-    counter = 0
     user_name = message.from_user.username
     user_first_name = message.from_user.first_name
     user_last_name = message.from_user.last_name
@@ -60,14 +59,14 @@ def task(message):
 
     applications[str(user_id)] = {
         'username': user_name,
-        'First name': user_first_name,
-        'Last Name': user_last_name,
+        'FirstName': user_first_name,
+        'LastName': user_last_name,
         'application': application_text
     }
 
     save_applicatoins(applications)
 
     bot.reply_to(message, 'Заявка успешно отправлена техническому специалисту.')
-
+    print(f'Заявка от {user_first_name} {user_last_name} (Имя пользователя {user_name})')
 
 bot.polling(none_stop=True)
