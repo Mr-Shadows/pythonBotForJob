@@ -1,11 +1,13 @@
 import telebot
-import config
 import os
 import json
+import configparser
 
-from telebot import types
+conf = configparser.ConfigParser()
+conf.read('config.ini')
+token = conf.get('TELEGRAM', 'TOKEN')
 
-bot = telebot.TeleBot(config.TOKEN)
+bot = telebot.TeleBot(token)
 
 APPLICATIONS_FILE = 'applications.json'
 print('Бот успешно запущен!')
@@ -55,18 +57,20 @@ def task(message):
     user_name = message.from_user.username
     user_first_name = message.from_user.first_name
     user_last_name = message.from_user.last_name
+
     application_text = [message.text]
 
     applications[str(user_id)] = {
-        'username': user_name,
-        'FirstName': user_first_name,
-        'LastName': user_last_name,
-        'application': application_text
+         'username': user_name,
+         'FirstName': user_first_name,
+         'LastName': user_last_name,
+         'application': application_text
     }
 
     save_applicatoins(applications)
 
     bot.reply_to(message, 'Заявка успешно отправлена техническому специалисту.')
     print(f'Заявка от {user_first_name} {user_last_name} (Имя пользователя {user_name})')
+
 
 bot.polling(none_stop=True)
